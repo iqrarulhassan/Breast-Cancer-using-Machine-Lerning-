@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Breast Cancer Detection</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #f6d365, #fda085);
+      min-height: 100vh;
+      color: #444;
+    }
+
+    /* Header Styling */
+    header {
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 2px solid #f6b93b;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 36px;
+      color: #e58e26;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    header p span {
+      font-weight: bold;
+      color: #f6b93b;
+    }
+
+    /* Form Styling */
+    form {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    form h1 {
+      color: #444;
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .form-row input[type="text"] {
+      flex: 1;
+      margin: 0 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .form-row input[type="text"]:focus {
+      box-shadow: 0 0 10px #f6b93b;
+      outline: none;
+    }
+
+    /* Button Styling */
+    .button_cont {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .button_css button {
+      background-color: #f6b93b;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .button_css button:hover {
+      background-color: #e58e26;
+      transform: scale(1.05);
+    }
+
+    /* Footer Styling */
+    footer {
+      text-align: center;
+      background: #444;
+      color: white;
+      padding: 20px 0;
+      margin-top: 40px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #f6b93b;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #e58e26;
+    }
+
+    /* Animation */
+    footer {
+      animation: fadeIn 2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Welcome to Breast Cancer Detection</h1>
+  <p>
+    Breast cancer is one of the most common cancers affecting women worldwide. 
+    Early detection through advanced technologies can save lives. 
+    Our tool uses <span>machine learning</span> to predict the likelihood of breast cancer based on tumor features. 
+    Please provide the required details below.
+  </p>
+</header>
+
+<form action="{{ url_for('predict') }}" method="post">
+  <h1>Enter the Tumor Features</h1>
+
+  <div class="form-row">
+    <input type="text" name="mean_radius" placeholder="Mean Radius" required>
+    <input type="text" name="mean_texture" placeholder="Mean Texture" required>
+    <input type="text" name="mean_smoothness" placeholder="Mean smoothness" required>
+  </div>
+
+  <div class="form-row">
+    <input type="text" name="mean_compactness" placeholder="Mean Compactness" required>
+    <input type="text" name="mean_concavity" placeholder="Mean concavity" required>
+    <input type="text" name="mean_symmetry" placeholder="Mean Symmetry" required>
+    
+  </div>
+
+  <div class="form-row">
+    <input type="text" name="radius_error" placeholder="Radius Error" required>
+    <input type="text" name="compactness_error" placeholder="'Compactness  Error" required>
+    <input type="text" name="concavity_error" placeholder="Concavity Error" required>
+    
+  </div>
+
+  <div class="form-row">
+    <input type="text" name="concave_points_error" placeholder="Concave Points_Error" required>
+    <input type="text" name="worst_smoothness" placeholder="Worst Smoothness" required>
+    <input type="text" name="worst_compactness" placeholder="Worst Compactness" required>
+  </div>
+
+  <div class="form-row">
+    <input type="text" name="worst_concavity" placeholder="Worst Concavity" required>
+    <input type="text" name="worst_symmetry" placeholder="Worst Symmetry" required>
+    <input type="text" name="worst_fractal_dimension" placeholder="Worst Fractal Dimension" required>
+  </div>
+
+  <div class="button_cont">
+        <!-- Show button -->
+        <div class="button_cont" align="center"><a class="button_css" href="http://bit.ly/breast-cancer-ml-project" target="_blank" rel="nofollow noopener">
+        <button type="submit" class="btn btn-primary btn-block btn-large"><strong>Predict Cancer</strong></button></a>
+        </div>
+  </div>
+</form>
+<!-- Show predicted output using ML model --> 
+<div>
+    <center>
+    <h1>{{ prediction_text }}</h1>
+    </center>
+</div>
+<footer>
+  <p>
+    Designed by <strong>Iqrarul Hassan</strong>. Contact: <a href="mailto:iqrarulhassan@example.com">iqrarulhassan@example.com</a> | Phone: +123 456 7890
+  </p>
+</footer>
+
+</body>
+</html>
